@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+           id="com.copcar.android"
+      version="0.0.1">
+    <name>Hmonitor</name>
+    <description>Hardware monitor plugin for cordova</description>
+    <license>MIT</license>
+    <keywords>cordova, hardware,monitor</keywords>
+ 
+ 
+    <js-module src="www/hmonitor.js" name="Hmonitor">
+        <clobbers target="hmonitor" />
+    </js-module>
+ 
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Hmonitor">
+                <param name="android-package" value="com.copcar.android.Hmonitor"/>
+            </feature>
+        </config-file>
+ 
+        <source-file src="src/com/copcar/android/Hmonitor.java" target-dir="src/com/copcar/android" />    
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
+            <uses-permission android:name="android.permission.BATTERY_STATS" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+			<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+			<uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+			<uses-permission android:name="android.permission.INTERNET" />     
+			<uses-permission android:name="android.permission.VIBRATE"/>      
+        </config-file>
+     
+     </platform>         
+</plugin>
