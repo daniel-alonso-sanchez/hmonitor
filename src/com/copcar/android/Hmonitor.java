@@ -79,8 +79,9 @@ public class Hmonitor extends CordovaPlugin {
 
 		this.sockMan = (ConnectivityManager) cordova.getActivity()
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		
+		Log.i(LOG_TAG, "adding connectionrec");
 		addConnectionReceiver ();
+		Log.i(LOG_TAG, "adding bt");
 		addBTReceiver ();
 		
 	}
