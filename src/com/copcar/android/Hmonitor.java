@@ -77,12 +77,7 @@ public class Hmonitor extends CordovaPlugin {
 		
 		this.connectionCallbackContext = null;
 
-		this.sockMan = (ConnectivityManager) cordova.getActivity()
-				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		Log.i(LOG_TAG, "adding connectionrec");
-		addConnectionReceiver ();
-		Log.i(LOG_TAG, "adding bt");
-		addBTReceiver ();
+		
 		
 	}
 
@@ -173,7 +168,14 @@ public class Hmonitor extends CordovaPlugin {
 			CallbackContext callbackContext) throws JSONException {
 		boolean success = Boolean.FALSE;
 		connectionCallbackContext = callbackContext;
-
+		if (this.sockMan==null){
+			this.sockMan = (ConnectivityManager) cordova.getActivity()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
+		}
+		Log.i(LOG_TAG, "adding connectionrec");
+		addConnectionReceiver ();
+		Log.i(LOG_TAG, "adding bt");
+		addBTReceiver ();
 		try {
 
 			if (ACTION_CHECK_BT_NUUBO.equals(action)) {
