@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
  
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-           id="com.copcar.android"
+           id="com.copcar.hmonitor"
       version="0.0.1">
     <name>Hmonitor</name>
     <description>Hardware monitor plugin for cordova</description>
