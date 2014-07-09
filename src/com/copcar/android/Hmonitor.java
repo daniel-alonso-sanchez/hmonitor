@@ -132,8 +132,8 @@ public class Hmonitor extends CordovaPlugin {
 
 	private void addDeviceReceiver() {
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(BluetoothDevice.ACTION_FOUND);
-		
+		intentFilter.addAction(BluetoothDevice.ACTION_BOND_STATE_CHANGED);
+		intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
 		if (this.deviceReceiver == null) {
 			this.deviceReceiver = new BroadcastReceiver() {
 				@Override
@@ -144,12 +144,28 @@ public class Hmonitor extends CordovaPlugin {
 					// When discovery finds a device
 					BluetoothDevice device = intent
 							.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-					if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+					if (BluetoothDevice.ACTION_BOND_STATE_CHANGED.equals(action)) {
 						// Get the BluetoothDevice object from the Intent
+						if (device.getBondState()==BluetoothDevice.BOND_BONDED){
+							Log.i(LOG_TAG,
+									"bonded to Device with id:"
+											+ device.getName());	
+						}
+						else{
+							Log.i(LOG_TAG,
+									"not bonded to Device with id:"
+											+ device.getName());
+						}
+						
+					}
+					else{
+						if (BluetoothDevice.ACTION_ACL_CONNECTED.equals(action)) {
+							// Get the BluetoothDevice object from the Intent
 
-						Log.i(LOG_TAG,
-								"bonded to Device with id:"
-										+ device.getName());
+							Log.i(LOG_TAG,
+									"connected to Device with id:"
+											+ device.getName());
+						}
 					}
 				}
 			};
