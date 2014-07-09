@@ -79,13 +79,14 @@ public class Hmonitor extends CordovaPlugin {
 
 		this.sockMan = (ConnectivityManager) cordova.getActivity()
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
-		IntentFilter intentFilter = new IntentFilter();
-		addConnectionReceiver (intentFilter);
-		addBTReceiver (intentFilter);
+		
+		addConnectionReceiver ();
+		addBTReceiver ();
 		
 	}
 
-	private void addBTReceiver(IntentFilter intentFilter) {
+	private void addBTReceiver( ) {
+		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED);
 		if (this.btReceiver == null) {
 			this.btReceiver = new BroadcastReceiver() {
@@ -119,7 +120,8 @@ public class Hmonitor extends CordovaPlugin {
 		}
 	}
 
-	private void addConnectionReceiver(IntentFilter intentFilter) {
+	private void addConnectionReceiver() {
+		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		if (this.connectionReceiver == null) {
 			this.connectionReceiver = new BroadcastReceiver() {
