@@ -135,12 +135,12 @@ public class Hmonitor extends CordovaPlugin {
 					
 					if (isNetworkAvailable()){
 						Log.i(LOG_TAG, "CONNECTED");
-						sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_CONNECTION,Boolean.TRUE));
+					//	sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_CONNECTION,Boolean.TRUE));
 						
 					}
 					else{
 						Log.i(LOG_TAG, "NOT CONNECTED");
-						sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_CONNECTION,Boolean.FALSE));
+					//	sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_CONNECTION,Boolean.FALSE));
 						
 					}
 				}
