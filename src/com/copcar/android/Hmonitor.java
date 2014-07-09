@@ -67,6 +67,7 @@ public class Hmonitor extends CordovaPlugin {
 	private BroadcastReceiver btReceiver;
 	private boolean connectionRegistered = false;
 	private boolean btRegistered = false;
+	private ConnectivityManager sockMan;
 	@Override
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
 		super.initialize(cordova, webView);
@@ -76,8 +77,8 @@ public class Hmonitor extends CordovaPlugin {
 		
 		this.connectionCallbackContext = null;
 
-		//this.sockMan = (ConnectivityManager) cordova.getActivity()
-	//			.getSystemService(Context.CONNECTIVITY_SERVICE);
+		this.sockMan = (ConnectivityManager) cordova.getActivity()
+				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		IntentFilter intentFilter = new IntentFilter();
 		addConnectionReceiver (intentFilter);
 		addBTReceiver (intentFilter);
@@ -125,31 +126,11 @@ public class Hmonitor extends CordovaPlugin {
 				@Override
 				public void onReceive(Context context, Intent intent) {					
 					
-					ConnectivityManager connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-					int networkType = intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK_TYPE);
-					boolean isWiFi = networkType == ConnectivityManager.TYPE_WIFI;
-					boolean isMobile = networkType == ConnectivityManager.TYPE_MOBILE;
-					NetworkInfo networkInfo = connectivityManager.getNetworkInfo(networkType);
-					boolean isConnected = networkInfo.isConnected();
-
-					if (isWiFi) {
-					    if (isConnected) {
-					        Log.i(LOG_TAG, "Wi-Fi - CONNECTED");
-					    } else {
-					        Log.i(LOG_TAG, "Wi-Fi - DISCONNECTED");
-					    }
-					} else if (isMobile) {
-					    if (isConnected) {
-					        Log.i(LOG_TAG, "Mobile - CONNECTED");
-					    } else {
-					        Log.i(LOG_TAG, "Mobile - DISCONNECTED");
-					    }
-					} else {
-					    if (isConnected) {
-					        Log.i(LOG_TAG, networkInfo.getTypeName() + " - CONNECTED");
-					    } else {
-					        Log.i(LOG_TAG, networkInfo.getTypeName() + " - DISCONNECTED");
-					    }
+					if (isNetworkAvailable()){
+						Log.i(LOG_TAG, "CONNECTED");
+					}
+					else{
+						Log.i(LOG_TAG, "NOT CONNECTED");
 					}
 				}
 			};
@@ -244,5 +225,9 @@ public class Hmonitor extends CordovaPlugin {
 		connectionCallbackContext
 				.sendPluginResult(pluginResult);
 	}
-	
+	private boolean isNetworkAvailable() {		
+		NetworkInfo activeNetworkInfo = sockMan
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+	}	
 }
