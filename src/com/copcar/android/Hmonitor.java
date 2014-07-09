@@ -1,8 +1,5 @@
 package com.copcar.android;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -56,7 +53,10 @@ public class Hmonitor extends CordovaPlugin {
 	
 	
 	private static final String CTE_TYPE="type";
+	private static final String CTE_STATUS="status";
 	private static final String CTE_TYPE_INIT="init";
+	private static final String CTE_TYPE_CONNECTION="connection";
+	private static final String CTE_TYPE_BT="bt";
 	private CallbackContext connectionCallbackContext;
 	
 	//private Context context;
@@ -102,15 +102,19 @@ public class Hmonitor extends CordovaPlugin {
 			            switch (state) {
 			            case BluetoothAdapter.STATE_OFF:
 			            	Log.i(LOG_TAG, "BT status OFF");
+			            	sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_BT,Boolean.FALSE));
 			                break;
 			            case BluetoothAdapter.STATE_TURNING_OFF:
 			            	Log.i(LOG_TAG, "BT status turning OFF");
+			            	sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_BT,Boolean.FALSE));
 			                break;
 			            case BluetoothAdapter.STATE_ON:
 			            	Log.i(LOG_TAG, "BT status ON");
+			            	sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_BT,Boolean.TRUE));
 			                break;
 			            case BluetoothAdapter.STATE_TURNING_ON:
 			            	Log.i(LOG_TAG, "BT status turning ON");
+			            	sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_BT,Boolean.FALSE));
 			                break;
 			            }
 			        }
@@ -131,9 +135,13 @@ public class Hmonitor extends CordovaPlugin {
 					
 					if (isNetworkAvailable()){
 						Log.i(LOG_TAG, "CONNECTED");
+						sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_CONNECTION,Boolean.TRUE));
+						
 					}
 					else{
 						Log.i(LOG_TAG, "NOT CONNECTED");
+						sendPluginResult(PluginResult.Status.OK,generateObject(CTE_TYPE_CONNECTION,Boolean.FALSE));
+						
 					}
 				}
 			};
@@ -204,15 +212,13 @@ public class Hmonitor extends CordovaPlugin {
 
 
 
-	private JSONObject generateObject(String cteTypeInit, Map<String,Object> params) {
+	private JSONObject generateObject(String cteTypeInit, Boolean status) {
 		JSONObject object=new JSONObject();
 		try {
 			object.put(CTE_TYPE, cteTypeInit);
 		
-			if (params!=null && params.size()>0){
-				for (Entry<String,Object>entry: params.entrySet()){
-					object.put(entry.getKey(), entry.getValue());
-				}
+			if (status!=null){
+				object.put(CTE_STATUS, status);				
 			}
 		} catch (JSONException e) {
 			
